@@ -186,13 +186,14 @@ export const updateTask = async (req, res) => {
 
     const fields = [];
     const values = [];
+    let paramIndex = 1;
 
     if (title) {
-      fields.push("title = ?");
+      fields.push(`title = $${paramIndex++}`);
       values.push(title);
     }
     if (description) {
-      fields.push("description = ?");
+      fields.push(`description = $${paramIndex++}`);
       values.push(description);
     }
 
@@ -252,7 +253,7 @@ export const toggleTaskCompletionStatus = async (req, res) => {
     const currentStatus = await _getTaskCompletionStatus(
       taskId,
       userId,
-      "completed"
+      "completed",
     );
 
     if (currentStatus === null) {
@@ -273,7 +274,7 @@ export const toggleTaskCompletionStatus = async (req, res) => {
   } catch (error) {
     console.error(
       `Error al alternar el estado de completado de la tarea ${taskId}:`,
-      error
+      error,
     );
     res
       .status(500)
