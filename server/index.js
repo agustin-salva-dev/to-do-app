@@ -35,7 +35,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-  })
+  }),
 );
 app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
@@ -47,7 +47,7 @@ app.use("/priorities", prioritiesRoutes);
 
 app.get("/", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT NOW() AS now");
+    const { rows } = await pool.query("SELECT NOW() AS now");
     res.send(`Server is running, its : ${rows[0].now}.`);
   } catch (error) {
     console.error("Error to connect to database: ", error);
